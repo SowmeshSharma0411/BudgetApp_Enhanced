@@ -26,3 +26,7 @@ samples, guidance on mobile development, and a full API reference.
 
 https://user-images.githubusercontent.com/95576716/210181331-753bbc51-aa15-4afa-9f98-872dca4ae5bc.mp4
 
+
+References : 
+
+--> https://www.youtube.com/watch?v=whDdLQIUnHA&t=434s for UI Design and inspiration. Elements like horizonatal calendar and all the Firebase related stuff was learnt and executed.
