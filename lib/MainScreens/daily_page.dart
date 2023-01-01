@@ -120,7 +120,7 @@ class _DailyPageState extends State<DailyPage> {
               ),
             ),
           ),
-          SizedBox(height: 12),
+          //SizedBox(height: 12),
           DailyTrans(_date),
           // StreamBuilder(
           //   stream: readTrans(),
@@ -225,12 +225,12 @@ class _DailyPageState extends State<DailyPage> {
           //Others must not be included here :
           SizedBox(height: 15),
           Padding(
-            padding: const EdgeInsets.only(left: 20, right: 20),
+            padding: const EdgeInsets.only(left: 20, right: 20, bottom: 15),
             child: Row(
               children: [
                 Spacer(),
                 Padding(
-                  padding: const EdgeInsets.only(right: 80),
+                  padding: const EdgeInsets.only(right: 220),
                   child: Text("Total",
                       style: TextStyle(
                           fontSize: 16,
@@ -261,6 +261,7 @@ class _DailyPageState extends State<DailyPage> {
           final tran = snapshot.data!;
           final time = DateTime.parse(tran[0].date.toString());
           return ListView(
+            physics: NeverScrollableScrollPhysics(),
             scrollDirection: Axis.vertical,
             shrinkWrap: true,
             children: tran.map(buildTrans).toList(),
@@ -280,30 +281,50 @@ class _DailyPageState extends State<DailyPage> {
           .toList());
 
   Widget buildTrans(transaction trans) {
-    String t = trans.type;
-    int index = 1;
+    String t = trans.type.toString();
+    int index = 0;
     while (index < daily.length) {
       if ((daily[index++]['name'].compareTo(t)) == 0) break;
     }
     index--;
     DateTime d = trans.date;
-    print(d);
-    print(_date);
+    // print(d);
+    // print(_date);
     // if (d == _date) {
-    return (ListTile(
-      leading: Image.asset(
-        daily[index]['icon'],
-        //color: Colors.deepPurple,
-        width: 30,
-        height: 30,
-      ),
-      title: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [Text('${trans.type}'), Text('${trans.amt}')],
-      ),
-      subtitle: Text(trans.date.toString().substring(0, 16)),
-      //have to disp : cost .
-    ));
+    return Card(
+      elevation: 4,
+      child: (ListTile(
+        leading: Container(
+          padding: EdgeInsets.all(8),
+          decoration: BoxDecoration(
+              color: grey!.withOpacity(0.5), shape: BoxShape.circle),
+          child: ClipOval(
+            //borderRadius: BorderRadius.circular(30),
+            child: SizedBox.fromSize(
+              size: Size.fromRadius(18),
+              child: Image.asset(
+                daily[index]['icon'],
+                fit: BoxFit.cover,
+                //color: Colors.deepPurple,
+                width: 25,
+                height: 25,
+              ),
+            ),
+          ),
+        ),
+        title: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Text('${trans.type}',
+                style: TextStyle(fontWeight: FontWeight.w500)),
+            Text('${trans.amt}')
+          ],
+        ),
+        subtitle: Text(trans.date.toString().substring(0, 16),
+            style: TextStyle(fontWeight: FontWeight.w500)),
+        //have to disp : cost .
+      )),
+    );
     // } else {
     //   return Text("");
     // }

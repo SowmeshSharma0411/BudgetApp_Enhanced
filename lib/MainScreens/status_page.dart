@@ -30,6 +30,7 @@ class _StatusPageState extends State<StatusPage> {
   Widget getBody() {
     var size = MediaQuery.of(context).size;
     DayMonth ob = new DayMonth();
+    DateTime _date = DateTime.now();
     // int i = 0;
     // for (i = 1990; i <= 2090; i++) {
     //   for (int c = 0; c < 12; c++)
@@ -64,11 +65,27 @@ class _StatusPageState extends State<StatusPage> {
               child: Column(
                 children: [
                   Text(
-                    "Stats",
+                    "Statistics",
                     style: TextStyle(
                         fontSize: 20,
                         fontWeight: FontWeight.bold,
                         color: black),
+                  ),
+                  HorizontalCalendar(
+                    date: _date,
+                    initialDate:
+                        DateTime.now().subtract(const Duration(days: 365 * 15)),
+                    lastDate:
+                        DateTime.now().add(const Duration(days: 365 * 55)),
+                    textColor: Colors.black,
+                    backgroundColor: Colors.white,
+                    selectedColor: primary,
+                    showMonth: true,
+                    onDateSelected: (date) {
+                      if (kDebugMode) {
+                        print(date.toString());
+                      } //this date is just date.
+                    },
                   ),
                   SizedBox(height: 25),
                   //ill have to create my own months calender here : custom.
@@ -86,58 +103,55 @@ class _StatusPageState extends State<StatusPage> {
                   //     }
                   //   },
                   // ),
-                  SingleChildScrollView(
-                    scrollDirection: Axis.horizontal,
-                    child: Row(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: List.generate(ob.months.length, (index) {
-                          return GestureDetector(
-                            onTap: () {
-                              setState(() {
-                                activeMonth = index;
-                              });
-                            },
-                            child: Container(
-                              width: (size.width - 50) / 6,
-                              child: Column(
-                                children: [
-                                  Text(
-                                    ob.months[index]['label'],
-                                    style: TextStyle(fontSize: 10),
-                                  ),
-                                  SizedBox(height: 10),
-                                  Container(
-                                    decoration: BoxDecoration(
-                                        color: activeMonth == index
-                                            ? primary
-                                            : Colors.transparent,
-                                        shape: BoxShape.rectangle,
-                                        borderRadius: BorderRadius.circular(5),
-                                        border: Border.all(
-                                            color: activeMonth == index
-                                                ? primary
-                                                : black.withOpacity(0.1))),
-                                    child: Padding(
-                                      padding: const EdgeInsets.only(
-                                          top: 7, right: 12, left: 12),
-                                      child: Text(
-                                        ob.months[index]['day'],
-                                        style: TextStyle(
-                                            fontSize: 10,
-                                            fontWeight: FontWeight.w600,
-                                            color: activeMonth == index
-                                                ? white
-                                                : black),
-                                      ),
+                  Row(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: List.generate(ob.months.length, (index) {
+                        return GestureDetector(
+                          onTap: () {
+                            setState(() {
+                              activeMonth = index;
+                            });
+                          },
+                          child: Container(
+                            width: (size.width - 50) / 6,
+                            child: Column(
+                              children: [
+                                Text(
+                                  ob.months[index]['label'],
+                                  style: TextStyle(fontSize: 10),
+                                ),
+                                SizedBox(height: 10),
+                                Container(
+                                  decoration: BoxDecoration(
+                                      color: activeMonth == index
+                                          ? primary
+                                          : Colors.transparent,
+                                      shape: BoxShape.rectangle,
+                                      borderRadius: BorderRadius.circular(5),
+                                      border: Border.all(
+                                          color: activeMonth == index
+                                              ? primary
+                                              : black.withOpacity(0.1))),
+                                  child: Padding(
+                                    padding: const EdgeInsets.only(
+                                        top: 7, right: 12, left: 12),
+                                    child: Text(
+                                      ob.months[index]['day'],
+                                      style: TextStyle(
+                                          fontSize: 10,
+                                          fontWeight: FontWeight.w600,
+                                          color: activeMonth == index
+                                              ? white
+                                              : black),
                                     ),
-                                  )
-                                ],
-                              ),
+                                  ),
+                                )
+                              ],
                             ),
-                          );
-                        })),
-                  )
+                          ),
+                        );
+                      }))
                 ],
               ),
             ),

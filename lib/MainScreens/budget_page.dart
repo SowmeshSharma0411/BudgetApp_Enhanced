@@ -1,7 +1,9 @@
 import 'package:budgetapp/json/budget_json.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
+import 'package:horizontal_calendar/horizontal_calendar.dart';
 
 import '../json/day_month.dart';
 import '../theme/colors.dart';
@@ -24,6 +26,7 @@ class _BudgetPageState extends State<BudgetPage> {
   }
 
   Widget getBody() {
+    DateTime _date = DateTime.now();
     var size = MediaQuery.of(context).size;
     DayMonth ob = new DayMonth();
     return SingleChildScrollView(
@@ -38,66 +41,85 @@ class _BudgetPageState extends State<BudgetPage> {
             ]),
             child: Padding(
               padding: const EdgeInsets.only(
-                  top: 60, left: 20, right: 20, bottom: 25),
+                  top: 45, left: 20, right: 20, bottom: 25),
               child: Column(
                 children: [
-                  Text(
-                    "Budget",
-                    style: TextStyle(
-                        fontSize: 20,
-                        fontWeight: FontWeight.bold,
-                        color: black),
+                  Padding(
+                    padding: const EdgeInsets.only(right: 0),
+                    child: Text(
+                      "Budget",
+                      style: TextStyle(
+                          fontSize: 20,
+                          fontWeight: FontWeight.bold,
+                          color: black),
+                    ),
                   ),
-                  SizedBox(height: 25),
-                  Row(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: List.generate(ob.months.length, (index) {
-                        return GestureDetector(
-                          onTap: () {
-                            setState(() {
-                              activeMonth = index;
-                            });
-                          },
-                          child: Container(
-                            width: (size.width - 50) / 6,
-                            child: Column(
-                              children: [
-                                Text(
-                                  ob.months[index]['label'],
-                                  style: TextStyle(fontSize: 10),
-                                ),
-                                SizedBox(height: 10),
-                                Container(
-                                  decoration: BoxDecoration(
-                                      color: activeMonth == index
-                                          ? primary
-                                          : Colors.transparent,
-                                      shape: BoxShape.rectangle,
-                                      borderRadius: BorderRadius.circular(5),
-                                      border: Border.all(
-                                          color: activeMonth == index
-                                              ? primary
-                                              : black.withOpacity(0.1))),
-                                  child: Padding(
-                                    padding: const EdgeInsets.only(
-                                        top: 7, right: 12, left: 12),
-                                    child: Text(
-                                      ob.months[index]['day'],
-                                      style: TextStyle(
-                                          fontSize: 10,
-                                          fontWeight: FontWeight.w600,
-                                          color: activeMonth == index
-                                              ? white
-                                              : black),
-                                    ),
-                                  ),
-                                )
-                              ],
-                            ),
-                          ),
-                        );
-                      }))
+                  SizedBox(height: 5),
+                  HorizontalCalendar(
+                    date: _date,
+                    initialDate:
+                        DateTime.now().subtract(const Duration(days: 365 * 15)),
+                    lastDate:
+                        DateTime.now().add(const Duration(days: 365 * 55)),
+                    textColor: Colors.black,
+                    backgroundColor: Colors.white,
+                    selectedColor: primary,
+                    showMonth: true,
+                    onDateSelected: (date) {
+                      if (kDebugMode) {
+                        print(date.toString());
+                      } //this date is just date.
+                    },
+                  ),
+                  // Row(
+                  //     crossAxisAlignment: CrossAxisAlignment.start,
+                  //     mainAxisAlignment: MainAxisAlignment.center,
+                  //     children: List.generate(ob.months.length, (index) {
+                  //       return GestureDetector(
+                  //         onTap: () {
+                  //           setState(() {
+                  //             activeMonth = index;
+                  //           });
+                  //         },
+                  //         child: Container(
+                  //           width: (size.width - 50) / 6,
+                  //           child: Column(
+                  //             children: [
+                  //               Text(
+                  //                 ob.months[index]['label'],
+                  //                 style: TextStyle(fontSize: 10),
+                  //               ),
+                  //               SizedBox(height: 10),
+                  //               Container(
+                  //                 decoration: BoxDecoration(
+                  //                     color: activeMonth == index
+                  //                         ? primary
+                  //                         : Colors.transparent,
+                  //                     shape: BoxShape.rectangle,
+                  //                     borderRadius: BorderRadius.circular(5),
+                  //                     border: Border.all(
+                  //                         color: activeMonth == index
+                  //                             ? primary
+                  //                             : black.withOpacity(0.1))),
+                  //                 child: Padding(
+                  //                   padding: const EdgeInsets.only(
+                  //                       top: 7, right: 12, left: 12),
+                  //                   child: Text(
+                  //                     ob.months[index]['day'],
+                  //                     style: TextStyle(
+                  //                         fontSize: 10,
+                  //                         fontWeight: FontWeight.w600,
+                  //                         color: activeMonth == index
+                  //                             ? white
+                  //                             : black),
+                  //                   ),
+                  //                 ),
+                  //               )
+                  //             ],
+                  //           ),
+                  //         ),
+                  //       );
+                  //     }))
                 ],
               ),
             ),
@@ -158,7 +180,7 @@ class _BudgetPageState extends State<BudgetPage> {
                             Padding(
                               padding: const EdgeInsets.only(top: 3),
                               child: Text(
-                                '\$5000.00',
+                                'Rs 5000.00/-',
                                 style: TextStyle(
                                     fontWeight: FontWeight.w500,
                                     fontSize: 13,
