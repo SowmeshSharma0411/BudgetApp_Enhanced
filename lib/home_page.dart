@@ -3,7 +3,11 @@
 import 'dart:ffi';
 
 import 'package:animated_bottom_navigation_bar/animated_bottom_navigation_bar.dart';
+import 'package:budgetapp/MainScreens/budget_page.dart';
+import 'package:budgetapp/MainScreens/create_budget_page.dart';
 import 'package:budgetapp/MainScreens/daily_page.dart';
+import 'package:budgetapp/MainScreens/profile_page.dart';
+import 'package:budgetapp/MainScreens/status_page.dart';
 import 'package:budgetapp/pages/google_signin_out.dart';
 import 'package:budgetapp/theme/colors.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -17,6 +21,7 @@ import 'pages/register_page.dart';
 import 'pages/login_page.dart';
 import 'pages/google_signin_out.dart';
 import 'package:budgetapp/MainScreens/daily_page.dart';
+import 'package:budgetapp/MainScreens/status_page.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -32,30 +37,31 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: SafeArea(
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.end,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            getbody(),
-            //Text('Signed In as ' + user.email!),
-            MaterialButton(
-                onPressed: () {
-                  final provider =
-                      Provider.of<GoogleSignInProvider>(context, listen: false);
-                  provider.googleLogout();
-                  FirebaseAuth.instance.signOut();
-                },
-                color: Colors.deepPurple,
-                child: //Text('Sign Out'),
-                    Icon(
-                  Icons.power_settings_new,
-                  size: 25,
-                ))
-          ],
-        ),
-      ),
+      // body: SafeArea(
+      //   child: Row(
+      //     mainAxisAlignment: MainAxisAlignment.end,
+      //     crossAxisAlignment: CrossAxisAlignment.start,
+      //     children: [
+      body: getbody(),
+      //Text('Signed In as ' + user.email!),
+      //       MaterialButton(
+      //           onPressed: () {
+      //             final provider =
+      //                 Provider.of<GoogleSignInProvider>(context, listen: false);
+      //             provider.googleLogout();
+      //             FirebaseAuth.instance.signOut();
+      //           },
+      //           color: Colors.deepPurple,
+      //           child: //Text('Sign Out'),
+      //               Icon(
+      //             Icons.power_settings_new,
+      //             size: 25,
+      //           ))
+      //     ],
+      //   ),
+      // ),
       bottomNavigationBar: getFooter(),
+      
       floatingActionButton: FloatingActionButton(
         onPressed: () {
           setTabs(4);
@@ -75,18 +81,10 @@ class _HomePageState extends State<HomePage> {
       index: pageIndex,
       children: [
         DailyPage(),
-        Center(
-          child: Text("Stats Page"),
-        ),
-        Center(
-          child: Text("Budget Page"),
-        ),
-        Center(
-          child: Text("Profile Page"),
-        ),
-        Center(
-          child: Text("Create Budget Page"),
-        ),
+        StatusPage(),
+        BudgetPage(),
+        ProfilePage(),
+        CreateBudgetPage(),
       ],
     );
   }
@@ -121,3 +119,4 @@ class _HomePageState extends State<HomePage> {
     });
   }
 }
+//Will implement logout in another page : profile page.

@@ -7,13 +7,13 @@ const List daily = [
   },
   {
     "icon": "assets/images/auto.png",
-    "name": "Automobile",
+    "name": "Auto",
     "date": "Mon 8AM",
     "price": "\$70.00"
   },
   {
     "icon": "assets/images/gas-station.png",
-    "name": "Gas Station",
+    "name": "Fuel",
     "date": "Sat 6PM",
     "price": "\$10.00"
   },
